@@ -1,9 +1,6 @@
 export function getApiBaseUrl() {
-  if (typeof window !== 'undefined') {
-    const hostname = window.location.hostname;
-    if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]') {
-      return 'http://localhost:8000';
-    }
+  if (import.meta.env.DEV) {
+    return '';
   }
 
   const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
@@ -11,5 +8,5 @@ export function getApiBaseUrl() {
     return `https://${codespaceName}-8000.app.github.dev`;
   }
 
-  return 'http://localhost:8000';
+  return window.location.origin;
 }

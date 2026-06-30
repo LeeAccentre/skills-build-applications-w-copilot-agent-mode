@@ -9,6 +9,9 @@ export default function Users() {
     async function loadUsers() {
       try {
         const response = await fetch(`${getApiBaseUrl()}/api/users/`);
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
         const data = await response.json();
         const list = Array.isArray(data) ? data : data.results || [];
         setUsers(list);

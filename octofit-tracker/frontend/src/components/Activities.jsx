@@ -9,6 +9,9 @@ export default function Activities() {
     async function loadActivities() {
       try {
         const response = await fetch(`${getApiBaseUrl()}/api/activities/`);
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
         const data = await response.json();
         const list = Array.isArray(data) ? data : data.results || [];
         setActivities(list);
