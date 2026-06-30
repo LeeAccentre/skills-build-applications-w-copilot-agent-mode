@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getApiBaseUrl } from '../utils/api.js';
 
 export default function Teams() {
   const [teams, setTeams] = useState([]);
@@ -8,7 +7,12 @@ export default function Teams() {
   useEffect(() => {
     async function loadTeams() {
       try {
-        const response = await fetch(`${getApiBaseUrl()}/api/teams/`);
+        const apiUrl = import.meta.env.DEV
+          ? '/api/teams/'
+          : import.meta.env.VITE_CODESPACE_NAME
+            ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/teams/`
+            : 'http://localhost:8000/api/teams/';
+        const response = await fetch(apiUrl);
         if (!response.ok) {
           throw new Error(`Request failed with status ${response.status}`);
         }
